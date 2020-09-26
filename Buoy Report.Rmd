@@ -1,0 +1,51 @@
+---
+title: "Buoy Project Report"
+author: "Yuelin Jiang"
+date: "9/25/2020"
+output:
+  pdf_document: default
+  html_document:
+    df_print: paged
+subtitle: Fall 2020 MA615 Assignment 1
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+## Buoy data and Global Warming
+This report is a limited data exploratory analysis of Buoy data from the NOAA National Data Buoy Center, NDBC Station 44013. The buoy data is collected every hour from December 1987 to December 2016. My task is to extrapolate useful variables and try to measure global warming based on these 30 year data.
+
+## My Method 
+Abstract data of year 1987 to 2016, only keep the columns of year, month, day, hours, air temperature and water temperature. Transform temperatures to doubles and year month day hours to integers.
+
+I only explore air temperature and water temperature at noon(hh=12), as the representative of the highest temperature for the day. Then I calculate the average monthly temperature for each year, using these daily noon temperatures. To overcome seasonal change within each year, I decided to do separate regressions for each month, so I have 12 regressions for each month, where temperature is a function of year. 
+
+If there is indeed global warming, I should at least expect the monthly average temperatures rising over the years. If there is climate change where weathers become more extreme, then I should observe summer temperatures rising and winter temperatures decreasing.
+
+## Data Analysis
+
+After cleaning and preparing the data, I used a for loop to do each regression and plotting. For example, at each loop for i, I group all the months that equals to i into a separate dataframe. Then I used lm() to regress temperature against year. Depending on the coefficient of the slope, I draw the abline() red if the coefficient >0(increasing temp), and blue if the coefficient <0 (decreasing temp).
+The results for Air Temperatures are shown in Figure2:
+
+![Each Month's Average Air Temperature at Noon from 1987 to 2016](/Users/yuelinj/codes/2020FALL/MA615-MSSP2020/Buoy/atmp.png)
+
+
+
+Repeat the above process, and the results for Water Temperatures are shown on Figure2.
+
+![Each Month's Average Water Temperature at Noon from 1987 to 2016](/Users/yuelinj/codes/2020FALL/MA615-MSSP2020/Buoy/wtmp.png)
+
+## Conclusion
+We can clearly observe that, for air temperatures, most months have rising temperatures over the last 30 years. January, February and November have decreasing temperatures. This is within expectations, since colder winters are consistent with Climate change. 
+
+The pattern is similar for water temperature, most months have rising temperatures. Only January and February have decreasing temperatures. 
+
+We can conclude that for the past 30 years, around Boston area where this buoy collects data, summers, springs and autumns in Boston are getting hotter, while winters are getting colder. This analysis suggests climate change. 
+
+This analysis certainly contains its limitations. The data is collected at one location on this planet, and my analysis only accounts noon temperature. Further investigations could include more data points around the globe, include more variables like CO2 level, and study daily, seasonal, yearly temperature fluctuations. 
+
+
+# Reference
+Packages used:  "knitr","ggplot2","rstanarm","tidyverse","lubridate","zoo","astsa"
+Persons: Thanks to my teammates Zijie Huang, Ziyi Bai, Xiaozhou Lu, Yuxin Zeng who helped me to improve my method and coding problems. 
