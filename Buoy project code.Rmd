@@ -9,7 +9,7 @@ output:
 
 ```{r setup, include=FALSE}
 knitr::opts_chunk$set(echo = TRUE)
-pacman::p_load("knitr","ggplot2","rstanarm","tidyverse","lubridate","zoo","astsa")
+pacman::p_load("knitr","ggplot2","rstanarm","tidyverse","lubridate","astsa")
 ```
 
 ## Retrive data from the site [credit: Jason Huang]
@@ -52,6 +52,17 @@ monthly_time <- monthly %>% unite(monthly, YYYY, MM, sep = "-")
 ## Data analysis
 
 ```{r}
+#plotting monthly average air tmp
+
+plot.ts(monthly_time$atmp)
+
+#plotting monthly average water tmp
+
+plot.ts(monthly_time$wtmp)
+```
+
+
+```{r}
 
 # Since there are seasonal fluctuations which made the overall trend hard to observe. So we plot each month separately.
 
@@ -73,7 +84,6 @@ for (i in c(1:12)) {
       plot(x = month_i$YYYY, y = month_i$atmp, xlab = "Year", ylab = "Air Temp",
            main = paste("Month_", i))
       abline(b[1], b[2], col="BLUE")
-   
  }
 }
 
@@ -116,8 +126,18 @@ plot(ts_mon,type="b")
 diff12 = diff(ts_mon,12)
 plot(diff12,type="b")
 
-sarima(ts_mon,1,0,0,0,1,1,12)
-sarima.for(ts_mon,24,1,0,0,0,1,1,12)
-# The relationship is unclear, so the result is not included in the report.
+sarima(ts_mon,12,0,0,0,1,1,12)
+sarima.for(ts_mon,132,1,0,0,0,1,1,12)
+
+```
+```{r}
+# Citations
+citation()
+citation("rstanarm")
+citation("ggplot2")
+citation("knitr")
+citation("tidyverse")
+citation("lubridate")
+citation("astsa")
 ```
 
